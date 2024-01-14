@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  node_1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: run
+    container_name: ${APP_NAME}
+    env_file:
+      - .env.production
+    networks:
+      - mp-network
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    restart: always
+    volumes:
+      - ./../logs:/usr/app/logs  
+volumes:
+  app-log:
+    external: true
+networks:
+  mp-network:
+    external: true

@@ -1,0 +1,29 @@
+# Estágio de construção
+FROM node:20.11 as build
+
+WORKDIR /usr/app
+
+COPY package*.json ./
+
+COPY .swcrc ./
+
+COPY nest-cli.json ./
+
+COPY tsconfig*.json ./
+
+RUN npm install
+
+COPY prisma ./prisma
+
+RUN npx prisma generate
+
+RUN npm run build
+
+COPY .env.development ./
+COPY .env.local ./
+
+RUN mkdir logs temp
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "run", "start:local:dev"]

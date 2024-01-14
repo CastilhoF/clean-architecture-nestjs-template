@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env.development
+    restart: always
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - ./abis:/usr/app/abis
+      - ./prisma:/usr/app/prisma
+      - ./src:/usr/app/src 
+      - ./temp:/usr/app/temp
+      - ./test:/usr/app/test
+      - ./../logs:/usr/app/logs
+    networks:
+      - mp-network
+    depends_on:
+      - db
+      - redis
+  redis:
+    env_file:
+      - .env.development
+    image: redis:latest
+    command: ["redis-server", "--requirepass", "${CACHE_PASSWORD}"]
+    restart: always
+    ports:
+      - '${CACHE_PORT}:${CACHE_PORT}'
+    networks:
+      - mp-network
+  db: 
+    env_file:
+      - .env.development
+    image: mysql:latest
+    restart: always 
+    command: --init-file /docker-entrypoint-initdb.d/init.sh
+    environment: 
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+    ports: 
+      - '${DATABASE_PORT}:${DATABASE_PORT}' 
+    networks:
+      - mp-network
+    volumes:
+      - ./init.sh:/docker-entrypoint-initdb.d/init.sh
+volumes:
+  app-log:
+    external: true
+networks:
+  mp-network:
+    external: true
