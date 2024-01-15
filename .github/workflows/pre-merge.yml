@@ -24,13 +24,13 @@ jobs:
       - name: Run tests
         run: yarn test
 
-  # build:
-  #   needs: test
-  #   runs-on: ubuntu-latest
+  build:
+    needs: test
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-  #   - name: Build Docker image
-  #     run: docker build -t creator-pro-backend . 
+    - name: Build Docker image
+      run: docker build -t clean-architecture-nestjs-template . 
