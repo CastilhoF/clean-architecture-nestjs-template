@@ -1,4 +1,4 @@
-FROM node:20.10-alpine3.18 as build
+FROM node:20.11-alpine3.19 as build
 
 WORKDIR /usr/app
 
@@ -16,7 +16,7 @@ COPY tsconfig.json tsconfig.build.json nest-cli.json ./
 COPY src ./src
 RUN yarn build
 
-FROM node:20.10-alpine3.18 as run
+FROM node:20.11-alpine3.19 as run
 ENV NODE_ENV production
 WORKDIR /usr/app
 

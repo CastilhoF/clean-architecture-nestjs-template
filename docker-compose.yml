@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   node_1:
     build:
@@ -14,7 +14,7 @@ services:
       - ${APP_PORT}:${APP_PORT}
     restart: always
     volumes:
-      - ./../logs:/usr/app/logs  
+      - ./../logs:/usr/app/logs
 volumes:
   app-log:
     external: true

@@ -1,27 +1,27 @@
-version: '3.8'
-services: 
+version: '3.9'
+services:
   redis:
     env_file:
       - .env.local
     image: redis:latest
-    command: ["redis-server", "--requirepass", "${CACHE_PASSWORD}"]
+    command: ['redis-server', '--requirepass', '${CACHE_PASSWORD}']
     restart: always
     ports:
       - '${CACHE_PORT}:${CACHE_PORT}'
     networks:
       - mp-network
-  db: 
+  db:
     env_file:
       - .env.local
     image: mysql:latest
-    restart: always 
+    restart: always
     command: --init-file /docker-entrypoint-initdb.d/init.sh
-    environment: 
+    environment:
       - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
-    ports: 
-      - '${DATABASE_PORT}:${DATABASE_PORT}' 
+    ports:
+      - '${DATABASE_PORT}:${DATABASE_PORT}'
     networks:
       - mp-network
     volumes:

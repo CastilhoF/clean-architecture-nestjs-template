@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   app:
     build:
@@ -12,7 +12,7 @@ services:
     volumes:
       - ./abis:/usr/app/abis
       - ./prisma:/usr/app/prisma
-      - ./src:/usr/app/src 
+      - ./src:/usr/app/src
       - ./temp:/usr/app/temp
       - ./test:/usr/app/test
       - ./../logs:/usr/app/logs
@@ -25,24 +25,24 @@ services:
     env_file:
       - .env.development
     image: redis:latest
-    command: ["redis-server", "--requirepass", "${CACHE_PASSWORD}"]
+    command: ['redis-server', '--requirepass', '${CACHE_PASSWORD}']
     restart: always
     ports:
       - '${CACHE_PORT}:${CACHE_PORT}'
     networks:
       - mp-network
-  db: 
+  db:
     env_file:
       - .env.development
     image: mysql:latest
-    restart: always 
+    restart: always
     command: --init-file /docker-entrypoint-initdb.d/init.sh
-    environment: 
+    environment:
       - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
-    ports: 
-      - '${DATABASE_PORT}:${DATABASE_PORT}' 
+    ports:
+      - '${DATABASE_PORT}:${DATABASE_PORT}'
     networks:
       - mp-network
     volumes:

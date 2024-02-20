@@ -1,5 +1,5 @@
 # Estágio de construção
-FROM node:20.11 as build
+FROM node:20.11-alpine3.19 as build
 
 WORKDIR /usr/app
 
